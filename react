@@ -1,0 +1,80 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class ToDoList extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      name: "My To Do List",
+      tasks: ["watch react course", "Finish hello coding", "Create to do list"] 
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+
+    this.handleClick = this.handleClick.bind(this)
+
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    eval(this[event.target.name]).bind(this(event))
+  }
+
+  handleClick(event) {
+    eval(this[event.target.name]).bind(this)(event)
+  }
+
+  handleChange(event) {
+    eval(this[event.target.name]).bind(this)(event)
+  }
+  
+  task(event) {
+    this.setState({ task: event.target.value })
+  }
+  addItem(event){
+    const items = this.state.task
+    items.push(this.state.task)
+    this.setState({ tasks: items, task: ''})
+
+  }
+  render() {
+
+const tasks = (this.state.tasks).map((task, index) => (
+  <li>
+
+  {task} <button>Delete</button>
+
+  </li>
+
+))
+    return (
+
+      <div className="container">
+        <h1>{this.state.name}</h1>
+
+        <ol>
+
+          {tasks}
+          {
+            this.state.task && <li>{this.state.task}</li>
+          }
+
+        </ol>
+
+        <form name="addTask" onSubmit={this.handleSubmit}>
+          <input name="task" value={this.state.task} onChange={this.handleChange}/>
+          <button name="addItem" onClick={this.handleClick}>Add</button>
+        </form>
+
+      </div>
+
+    );
+  }
+}
+
+ReactDOM.render(
+  <ToDoList name="World" />,
+  document.getElementById('container')
+);
