@@ -1,0 +1,66 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+class ToDoList extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      name: "My To Do List",
+      tasks: ["watch react course", "Finish hello coding", "Create to do list"],
+      task: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.addItem = this.addItem.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ task: event.target.value });
+  }
+
+  addItem(event) {
+    event.preventDefault();
+    const tasks = [...this.state.tasks, this.state.task];
+    this.setState({ tasks, task: '' });
+  }
+
+  deleteTask(index) {
+    const tasks = [...this.state.tasks];
+    tasks.splice(index, 1);
+    this.setState({ tasks });
+  }
+
+  render() {
+    const tasks = this.state.tasks.map((task, index) => (
+      <li key={index}>
+        {task}
+        <button onClick={() => this.deleteTask(index)}>Delete</button>
+      </li>
+    ));
+
+    return (
+      <div className="container">
+        <h1>{this.state.name}</h1>
+        <ol>
+          {tasks}
+          {this.state.task && <li>{this.state.task}</li>}
+        </ol>
+        <form onSubmit={this.addItem}>
+          <input 
+            name="task" 
+            value={this.state.task} 
+            onChange={this.handleChange}
+          />
+          <button type="submit">Add</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <ToDoList />,
+  document.getElementById('container')
+);
